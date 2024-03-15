@@ -1,0 +1,15 @@
+{
+  "login-page": {
+    "hello": "Xin chào",
+    "slogan": "Đăng nhập vào nền tảng để bắt đầu tạo ra phép thuật.",
+    "password": "Mật khẩu",
+    "remember_me": "Ghi nhớ tôi",
+    "forgot_password": "Quên mật khẩu?",
+    "email_invalid": "Vui lòng nhập đúng email"
+  },
+
+  "mode": {
+    "light": "Sáng",
+    "dark": "Tối"
+  }
+}

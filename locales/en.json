@@ -1,0 +1,15 @@
+{
+  "login-page": {
+    "hello": "Hello",
+    "slogan": "Log in to platform to start creating magic.",
+    "password": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password?",
+    "email_invalid": "Please enter a valid email"
+  },
+
+  "mode": {
+    "light": "Light",
+    "dark": "Dark"
+  }
+}
