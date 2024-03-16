@@ -1,34 +1,22 @@
 "use server"
 
-import { DF_EXAM_URL } from "@/shared/config"
-import axios from "axios"
+import { signIn } from "next-auth/react"
 
 export const login = async (prevState: string, formData: FormData) => {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
 
   try {
-    const url = DF_EXAM_URL + "/auth/login"
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
     })
 
-    if (!res.ok) {
-      return res.json()
-    } else {
-      return res.json()
-    }
+    console.log(res)
 
     return "success"
   } catch (error) {
-    return error
+    return "error"
   }
 }

@@ -6,7 +6,6 @@ export const NextIntlProvider = ({
   params: { locale },
 }: PropsWithChildren & { params: any }) => {
   const messages = useMessages()
-  console.log({ messages })
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>

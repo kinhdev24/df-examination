@@ -7,8 +7,8 @@ import NextUIProvider from "./NextUIProvider"
 
 export const AppProvider = ({
   children,
-  params: { locale },
-}: PropsWithChildren & { params: any }) => {
+  ...pageProps
+}: PropsWithChildren & { locale: any }) => {
   return (
     <SessionProvider>
       <ThemeProvider attribute="class" enableSystem defaultTheme="light">

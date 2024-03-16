@@ -5,15 +5,13 @@ import type { PropsWithChildren } from "react"
 
 export default function LocaleLayout({
   children,
-  params: { locale },
-}: PropsWithChildren & {
-  params: any
-}) {
-  unstable_setRequestLocale(locale)
+  ...pageProps
+}: PropsWithChildren & any) {
+  unstable_setRequestLocale(pageProps.locale)
 
   return (
-    <NextIntlProvider params={{ locale }}>
-      <AppProvider params={{ locale }}>{children}</AppProvider>
+    <NextIntlProvider {...pageProps}>
+      <AppProvider {...pageProps}>{children}</AppProvider>
     </NextIntlProvider>
   )
 }

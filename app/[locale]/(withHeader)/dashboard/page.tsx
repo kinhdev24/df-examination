@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import DashboardContainer from "./container"
 
 export const metadata: Metadata = {
   title: "Dashboard | DF Examination",
@@ -6,5 +7,10 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <div>Dashboard</div>
+  return (
+    <div>
+      Dashboard
+      <DashboardContainer />
+    </div>
+  )
 }

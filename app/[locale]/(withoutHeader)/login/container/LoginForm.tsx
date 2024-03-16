@@ -1,16 +1,21 @@
 "use client"
 
 import { Button, Checkbox, Input } from "@nextui-org/react"
-import { useTranslations } from "next-intl"
-import React from "react"
-import { useFormState } from "react-dom"
-import { LuMail, LuLock } from "react-icons/lu"
-import { login } from "../actions"
 import { signIn } from "next-auth/react"
+import { useLocale, useTranslations } from "next-intl"
+import { useRouter } from "next/navigation"
+import React, { useState, useTransition } from "react"
+import { LuLock, LuMail } from "react-icons/lu"
+import { toast } from "sonner"
 
 const LoginForm = () => {
   const [value, setValue] = React.useState("")
+  const [isPending, startTransition] = useTransition()
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const router = useRouter()
   const t = useTranslations("login-page")
+  const locale = useLocale()
 
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)
@@ -19,18 +24,42 @@ const LoginForm = () => {
 
     return validateEmail(value) ? false : true
   }, [value])
+
   return (
     <form
-      action={async (formData) => {
-        const email = formData.get("email")
-        const password = formData.get("password")
-      }}
+      action={(formData) =>
+        startTransition(async () => {
+          {
+            const email = formData.get("email") as string
+            const password = formData.get("password") as string
+
+            try {
+              const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+              })
+
+              if (res?.ok) {
+                router.replace(`/${locale}/dashboard`)
+                toast.success("Successfully signed in")
+              }
+
+              if (res?.error) {
+                setErrorMessage(res.error)
+                toast.error(res.error)
+              }
+            } catch (error) {
+              console.log({ error })
+            }
+          }
+        })
+      }
     >
       <Input
         name="email"
         value={value}
         type="email"
-        required
         placeholder="you@digitalfortress.dev"
         labelPlacement="outside"
         startContent={
@@ -39,7 +68,8 @@ const LoginForm = () => {
         onValueChange={setValue}
         variant="bordered"
         size="lg"
-        isInvalid={isInvalid}
+        isRequired
+        isInvalid={isInvalid || !!errorMessage}
         color={isInvalid ? "danger" : "success"}
         errorMessage={
           isInvalid && <div className="text-sm">{t("email_invalid")}</div>
@@ -48,12 +78,14 @@ const LoginForm = () => {
       <Input
         name="password"
         className="mt-6"
+        isRequired
         type="password"
         placeholder={t("password")}
         labelPlacement="outside"
         startContent={
           <LuLock className="text-2xl text-default-400 pointer-events-none mr-2" />
         }
+        isInvalid={!!errorMessage}
         size="lg"
       />
 
@@ -71,6 +103,8 @@ const LoginForm = () => {
         color="success"
         className="bg-green-300 font-semibold text-base"
         type="submit"
+        disabled={isPending}
+        isLoading={isPending}
       >
         Login
       </Button>
