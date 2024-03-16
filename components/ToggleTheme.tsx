@@ -7,7 +7,7 @@ import { TbSunFilled } from "react-icons/tb"
 import { IoMoonOutline } from "react-icons/io5"
 import { useTranslations } from "next-intl"
 
-export const ToggleThemeWithoutHeader = () => {
+export const ToggleTheme = () => {
   const { theme, setTheme } = useTheme()
   const t = useTranslations("mode")
 

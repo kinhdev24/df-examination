@@ -1,6 +1,11 @@
-import { type NextAuthOptions } from "next-auth"
+import { getServerSession, type NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { DF_EXAM_URL } from "./shared/config"
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -42,6 +47,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+
   session: {
     strategy: "jwt",
     maxAge: 30 * 60, // 30 minutes
@@ -58,7 +65,17 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       session.user = token.user
+
       return session
     },
   },
+}
+
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions)
 }

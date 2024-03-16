@@ -19,8 +19,11 @@ const config: Config = {
     },
     colors: {
       "dark-blue": "#131619",
+      "deep-back": "#0D0F10",
+      "light-gray": "#F5F5F5",
       "text-secondary": "#6F767E",
       "text-primary": "#2D2E31",
+      "light-green": "#B6F09C",
       ...tailwindColors,
     },
   },

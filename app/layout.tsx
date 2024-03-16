@@ -1,6 +1,10 @@
+import { authOptions } from "@/auth"
 import { locales } from "@/shared/config"
 import "@/styles/globals.css"
 import type { Metadata } from "next"
+import { getServerSession } from "next-auth"
+import { getSession } from "next-auth/react"
+
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -20,6 +24,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await getSession()
+
   return (
     <html suppressHydrationWarning>
       <body className={plus_jakarta_sans.className}>{children}</body>
