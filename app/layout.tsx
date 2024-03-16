@@ -1,8 +1,6 @@
-import { AppProvider } from "@/providers/AppProvider"
 import { locales } from "@/shared/config"
 import "@/styles/globals.css"
 import type { Metadata } from "next"
-import { NextIntlClientProvider, useMessages } from "next-intl"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -17,22 +15,14 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params: { locale },
 }: Readonly<{
   children: React.ReactNode
-  params: { locale: string }
 }>) {
-  // unstable_setRequestLocale(locale)
-  const messages = useMessages()
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={plus_jakarta_sans.className}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <AppProvider>{children}</AppProvider>
-        </NextIntlClientProvider>
-      </body>
+    <html suppressHydrationWarning>
+      <body className={plus_jakarta_sans.className}>{children}</body>
     </html>
   )
 }

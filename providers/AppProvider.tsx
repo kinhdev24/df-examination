@@ -1,12 +1,14 @@
 "use client"
 
-import React, { PropsWithChildren } from "react"
-import NextUIProvider from "./NextUIProvider"
-import { ThemeProvider } from "next-themes"
-import { NextIntlClientProvider, useMessages } from "next-intl"
 import { SessionProvider } from "next-auth/react"
+import { ThemeProvider } from "next-themes"
+import { PropsWithChildren } from "react"
+import NextUIProvider from "./NextUIProvider"
 
-export const AppProvider = ({ children }: PropsWithChildren) => {
+export const AppProvider = ({
+  children,
+  params: { locale },
+}: PropsWithChildren & { params: any }) => {
   return (
     <SessionProvider>
       <ThemeProvider attribute="class" enableSystem defaultTheme="light">
